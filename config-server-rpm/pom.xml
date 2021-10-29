@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -75,12 +76,13 @@
             <mapping>
               <directory>/etc/systemd/system</directory>
               <directoryIncluded>false</directoryIncluded>
-              <username>root</username>
-              <groupname>root</groupname>
+              <username>runner</username>
+              <groupname>runner</groupname>
               <filemode>644</filemode>
               <sources>
                 <source>
-                  <location>${project.build.directory}/classes/config-server-service.service</location>
+                  <location>${project.build.directory}/classes/config-server-service.service
+                  </location>
                   <destination>
                     config-server-service.service
                   </destination>
@@ -90,9 +92,9 @@
             <mapping>
               <directory>/usr/local/config-server-service</directory>
               <directoryIncluded>false</directoryIncluded>
-              <username>root</username>
-              <groupname>root</groupname>
-<!--              <filemode>664</filemode>-->
+              <username>runner</username>
+              <groupname>runner</groupname>
+              <filemode>664</filemode>
               <sources>
                 <source>
                   <location>
@@ -106,9 +108,9 @@
             </mapping>
             <mapping>
               <directory>/usr/local/config-server-service/lib</directory>
-<!--              <filemode>750</filemode>-->
-              <username>root</username>
-              <groupname>root</groupname>
+              <filemode>750</filemode>
+              <username>runner</username>
+              <groupname>runner</groupname>
               <dependency>
                 <includes>
                   <include>com.bjoggis:config-server-service
@@ -118,21 +120,21 @@
             </mapping>
             <mapping>
               <directory>/var/log/bjoggis-studios/</directory>
-<!--              <filemode>750</filemode>-->
-              <username>root</username>
-              <groupname>root</groupname>
+              <filemode>750</filemode>
+              <username>runner</username>
+              <groupname>runner</groupname>
             </mapping>
             <mapping>
               <directory>/var/spool/bjoggis-studios</directory>
-<!--              <filemode>750</filemode>-->
-              <username>root</username>
-              <groupname>root</groupname>
+              <filemode>750</filemode>
+              <username>runner</username>
+              <groupname>runner</groupname>
             </mapping>
             <mapping>
               <directory>/usr/local/config-server-service/config</directory>
-<!--              <filemode>770</filemode>-->
-              <username>root</username>
-              <groupname>root</groupname>
+              <filemode>770</filemode>
+              <username>runner</username>
+              <groupname>runner</groupname>
               <configuration>true</configuration>
               <sources>
                 <source>

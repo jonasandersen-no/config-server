@@ -4,8 +4,8 @@ Requires=network.target
 After=network.target
 
 [Service]
-User=root
-Group=root
+User=runner
+Group=runner
 Type=notify
 WorkingDirectory=/var/spool/bjoggis-studios
 EnvironmentFile=/etc/bjoggis-studios-environment

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Initial install
+if [ $1 -eq 1 ] ; then
+  /usr/bin/getent group runner > /dev/null || /usr/sbin/groupadd --system runner
+  /usr/bin/getent passwd runner > /dev/null || /usr/sbin/useradd --system -g runner runner
+fi
