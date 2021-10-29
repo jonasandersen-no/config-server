@@ -10,7 +10,7 @@ Type=notify
 WorkingDirectory=/var/spool/bjoggis-studios
 EnvironmentFile=/etc/bjoggis-studios-environment
 EnvironmentFile=/usr/local/config-server-service/config-server-service-@project.version@.conf
-ExecStart=/usr/bin/java -Djava.security.egd=file:/dev/./urandom -d64 -server \
+ExecStart=/usr/bin/java -server \
     -Duser.language=en \
     -Duser.country=US \
     ${JAVA_OPTIONS} \
