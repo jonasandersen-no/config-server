@@ -19,15 +19,15 @@
 	<description>Config server for Bjoggis Studios applications</description>
 	<properties>
 		<spring-cloud.version>2020.0.4</spring-cloud.version>
-		<java.version>11</java.version>
-		<spring-cloud.version>2020.0.4</spring-cloud.version>
-		<maven.compiler.source>11</maven.compiler.source>
-		<maven.compiler.target>11</maven.compiler.target>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
 	</properties>
 
 	<modules>
 		<module>config-server-service</module>
 		<module>config-server-rpm</module>
+		<module>systemd-connector</module>
 	</modules>
 
 </project>
