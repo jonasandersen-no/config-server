@@ -80,7 +80,7 @@
               <filemode>644</filemode>
               <sources>
                 <source>
-                  <location>${project.build.directory}/classes/config-server.service</location>
+                  <location>${project.build.directory}/classes/config-server-service.service</location>
                   <destination>
                     config-server-service.service
                   </destination>
