@@ -2,22 +2,21 @@ package com.bjoggis.configserver;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "properties")
+@Table(name = "studios_properties")
 public class Properties {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue
   private Long id;
 
   private String application;
   private String profile;
   private String label;
-  private String key;
+  private String name;
   private String value;
 
   public Long getId() {
@@ -52,12 +51,12 @@ public class Properties {
     this.label = label;
   }
 
-  public String getKey() {
-    return key;
+  public String getName() {
+    return name;
   }
 
-  public void setKey(final String key) {
-    this.key = key;
+  public void setName(final String key) {
+    this.name = key;
   }
 
   public String getValue() {
