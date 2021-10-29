@@ -1,4 +1,4 @@
-package com.bjoggis.configserver;
+package configserver;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
