@@ -11,7 +11,7 @@ public class ConfigServerApplication {
 	public static void main(String[] args) {
 
 		if (System.getProperty("HOSTNAME") == null){
-			System.setProperty("server.port", "8889");
+			System.setProperty("spring.boot.admin.client.url", "http://cloud.bjoggis.com:8080");
 		}
 
 		SpringApplication.run(ConfigServerApplication.class, args);
