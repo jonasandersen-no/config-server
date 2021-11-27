@@ -12,7 +12,7 @@
 	<packaging>pom</packaging>
 
 
-	<groupId>com.bjoggis</groupId>
+	<groupId>com.bjoggis.config</groupId>
 	<artifactId>config-server-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>config-server</name>

@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <artifactId>config-server-parent</artifactId>
-    <groupId>com.bjoggis</groupId>
+    <groupId>com.bjoggis.config</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
 
