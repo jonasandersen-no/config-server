@@ -27,7 +27,19 @@
 	<modules>
 		<module>config-server-service</module>
 		<module>config-server-rpm</module>
-		<module>systemd-connector</module>
 	</modules>
+
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>a0s7usic2czlv-artifactory-primary-0-releases</name>
+			<url>https://bjoggis.jfrog.io/artifactory/studios-libs-release</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>a0s7usic2czlv-artifactory-primary-0-snapshots</name>
+			<url>https://bjoggis.jfrog.io/artifactory/studios-libs-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
 
 </project>
