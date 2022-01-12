@@ -7,4 +7,5 @@ services:
       - bjoggis-network
 networks:
   bjoggis-network:
+    external:
       name: bjoggis-network
