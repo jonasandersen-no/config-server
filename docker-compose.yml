@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
     networks:
-      - default
+      - bjoggis-network
 networks:
-  default:
+  bjoggis-network:
     external:
       name: bjoggis-network
