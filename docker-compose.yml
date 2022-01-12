@@ -1,0 +1,11 @@
+services:
+  config-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - default
+networks:
+  default:
+    external:
+      name: bjoggis-network

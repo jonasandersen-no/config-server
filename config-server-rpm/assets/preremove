@@ -1,7 +1,0 @@
-#!/bin/sh
-
-# Uninstall
-if [ $1 -eq 0 ] ; then
-  /usr/bin/systemctl --quiet disable @project.parent.artifactId@
-  /usr/bin/systemctl --quiet stop @project.parent.artifactId@
-fi
