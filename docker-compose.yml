@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     networks:
       - bjoggis-network
+    ports:
+      - 8888:8888
 networks:
   bjoggis-network:
     external:
