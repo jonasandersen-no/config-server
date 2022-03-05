@@ -72,4 +72,24 @@
     </plugins>
   </build>
 
+  <repositories>
+    <repository>
+      <id>local-repository</id>
+      <name>Reposilite Repository</name>
+      <url>http://jenkins.bjoggis.com:8083/releases</url>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>local-repository</id>
+      <url>http://jenkins.bjoggis.com:8083/releases</url>
+    </repository>
+    <snapshotRepository>
+      <id>local-repository</id>
+      <url>http://jenkins.bjoggis.com:8083/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+
 </project>
