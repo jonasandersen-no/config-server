@@ -18,6 +18,7 @@ public class Properties {
   private String label;
   private String name;
   private String value;
+  private boolean secret;
 
   public Long getId() {
     return id;
@@ -65,5 +66,13 @@ public class Properties {
 
   public void setValue(final String value) {
     this.value = value;
+  }
+
+  public boolean isSecret() {
+    return secret;
+  }
+
+  public void setSecret(boolean secret) {
+    this.secret = secret;
   }
 }
