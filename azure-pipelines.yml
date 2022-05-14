@@ -67,6 +67,6 @@ stages:
               commands: |
                 docker stop config-server || true
                 docker rm config-server || true
-                docker run -d --pull always --network bjoggis-network --name config-server -p 8888:8888 bjoggisacr.azurecr.io/config-server
+                docker run -d --pull always --network bjoggis-network --name config-server -p 8888:8888 bjoggisacr.azurecr.io/config-server || true
               failOnStdErr: false
               readyTimeout: '20000'
