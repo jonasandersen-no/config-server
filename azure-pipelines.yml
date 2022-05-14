@@ -1,0 +1,52 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+  - master
+
+resources:
+  - repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+  - stage: Build
+    displayName: Build image
+    jobs:
+      - job: Build
+        displayName: Build
+        pool: Azure Pipelines
+        steps:
+          - task: MavenAuthenticate@0
+            inputs:
+              artifactsFeeds: 'bjoggis-studios-maven'
+          - task: Maven@3
+            inputs:
+              mavenPomFile: 'pom.xml'
+              goals: 'clean deploy'
+              publishJUnitResults: true
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              javaHomeOption: 'JDKVersion'
+              jdkVersionOption: '17'
+              mavenVersionOption: 'Default'
+              mavenAuthenticateFeed: true
+              effectivePomSkip: true
+              sonarQubeRunAnalysis: false
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: 'Azure Container Registry'
+              azureSubscription: 'Pay-As-You-Go(5b21c31b-9aa7-41ed-9b15-42992ae6edf7)'
+              azureContainerRegistry: '{"loginServer":"bjoggisacr.azurecr.io", "id" : "/subscriptions/5b21c31b-9aa7-41ed-9b15-42992ae6edf7/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.ContainerRegistry/registries/bjoggisacr"}'
+              dockerComposeFile: '**/docker-compose.yml'
+              action: 'Build services'
+              includeSourceTags: true
+          - task: DockerCompose@0
+            inputs:
+              containerregistrytype: 'Azure Container Registry'
+              azureSubscription: 'Pay-As-You-Go(5b21c31b-9aa7-41ed-9b15-42992ae6edf7)'
+              azureContainerRegistry: '{"loginServer":"bjoggisacr.azurecr.io", "id" : "/subscriptions/5b21c31b-9aa7-41ed-9b15-42992ae6edf7/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.ContainerRegistry/registries/bjoggisacr"}'
+              dockerComposeFile: '**/docker-compose.yml'
+              action: 'Push services'
+              includeSourceTags: true
