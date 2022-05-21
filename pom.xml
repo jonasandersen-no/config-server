@@ -74,8 +74,8 @@
 
   <repositories>
     <repository>
-      <id>bjoggis-studios-maven</id>
-      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-maven/maven/v1</url>
+      <id>bjoggis-studios-only</id>
+      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -87,14 +87,13 @@
 
   <distributionManagement>
     <repository>
-      <id>bjoggis-studios-maven</id>
-      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-maven/maven/v1</url>
+      <id>bjoggis-studios-only</id>
+      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
     </repository>
     <snapshotRepository>
-      <id>bjoggis-studios-maven</id>
-      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-maven/maven/v1</url>
+      <id>bjoggis-studios-only</id>
+      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
     </snapshotRepository>
   </distributionManagement>
-
 
 </project>
