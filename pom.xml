@@ -87,13 +87,10 @@
 
   <distributionManagement>
     <repository>
-      <id>bjoggis-studios-only</id>
-      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
+      <id>github</id>
+      <name>GitHub Packages</name>
+      <url>https://maven.pkg.github.com/octocat/hello-world</url>
     </repository>
-    <snapshotRepository>
-      <id>bjoggis-studios-only</id>
-      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
-    </snapshotRepository>
   </distributionManagement>
 
 </project>
