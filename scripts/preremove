@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Uninstall
+if [ $1 -eq 0 ] ; then
+  /usr/bin/systemctl disable config-server-service.service
+fi

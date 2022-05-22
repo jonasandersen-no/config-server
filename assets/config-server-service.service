@@ -1,0 +1,17 @@
+[Unit]
+Description=Bjoggis Studios - Config server
+After=network-online.target consul.service
+Wants=network-online.target consul.service
+
+[Service]
+User=runner
+Group=runner
+Type=notify
+WorkingDirectory=/var/lib/runner
+EnvironmentFile=/usr/local/runner/config-server-service/config-server-service.conf
+ExecStart=/usr/bin/java -Dsun.misc.URLClassPath.disableJarChecking=true -Djava.security.egd=file:/dev/./urandom -Djna.tmpdir=/usr/local/runner/config-server-service $JAVA_OPTS -jar /usr/local/runner/config-server-service/config-server-service-@project.version@.jar
+TimeoutStartSec=180
+TimeoutStopSec=180
+RestartSec=60
+Restart=on-failure
+SuccessExitStatus=143

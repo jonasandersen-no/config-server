@@ -11,7 +11,7 @@
   </parent>
 
   <groupId>com.bjoggis</groupId>
-  <artifactId>config-server</artifactId>
+  <artifactId>config-server-service</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>config-server</name>
   <description>Config server for Bjoggis Studios applications</description>
@@ -72,6 +72,156 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <!-- RPM PROFILE -->
+    <profile>
+      <id>rpmbuilder</id>
+      <build>
+
+        <!-- Enable Resource Filtering -->
+        <resources>
+          <resource>
+            <directory>${project.basedir}/assets</directory>
+            <filtering>true</filtering>
+          </resource>
+          <resource>
+            <directory>src/main/resources</directory>
+            <targetPath>${project.build.directory}/classes</targetPath>
+            <filtering>true</filtering>
+          </resource>
+        </resources>
+        <testResources>
+          <testResource>
+            <directory>src/test/resources</directory>
+            <targetPath>${project.build.directory}/test-classes</targetPath>
+            <filtering>true</filtering>
+          </testResource>
+        </testResources>
+
+        <plugins>
+          <plugin>
+            <artifactId>maven-resources-plugin</artifactId>
+            <version>3.2.0</version>
+            <executions>
+              <execution>
+                <id>filter-resources</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>resources</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <propertiesEncoding>UTF-8</propertiesEncoding>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+              <!-- Preserve Spring Boot Delimiters ('@') -->
+              <useDefaultDelimiters>false</useDefaultDelimiters>
+            </configuration>
+          </plugin>
+
+          <!-- Create RPM -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>rpm-maven-plugin</artifactId>
+            <version>2.2.0</version>
+            <executions>
+              <execution>
+                <id>attach-rpm</id>
+                <goals>
+                  <goal>attached-rpm</goal>
+                </goals>
+              </execution>
+            </executions>
+            <extensions>true</extensions>
+            <configuration>
+              <distribution>Bjoggis</distribution>
+              <group>Application/Bjoggis</group>
+              <packager>Bjoggis Studios</packager>
+              <prefix>/usr/local</prefix>
+              <needarch>true</needarch>
+              <targetVendor>redhat</targetVendor>
+              <targetOS>linux</targetOS>
+              <mappings>
+                <mapping>
+                  <directory>/var/log/runner</directory>
+                  <username>runner</username>
+                  <groupname>runner</groupname>
+                  <filemode>750</filemode>
+                </mapping>
+                <mapping>
+                  <directory>/var/lib/runner</directory>
+                  <username>runner</username>
+                  <groupname>runner</groupname>
+                  <filemode>750</filemode>
+                </mapping>
+                <mapping>
+                  <directory>/etc/systemd/system</directory>
+                  <directoryIncluded>false</directoryIncluded>
+                  <username>root</username>
+                  <groupname>root</groupname>
+                  <filemode>644</filemode>
+                  <sources>
+                    <source>
+                      <location>${project.build.directory}/config-server-service.service</location>
+                    </source>
+                  </sources>
+                </mapping>
+                <mapping>
+                  <directory>/usr/local/runner/</directory>
+                  <filemode>755</filemode>
+                  <username>runner</username>
+                  <groupname>runner</groupname>
+                </mapping>
+                <mapping>
+                  <directory>/usr/local/runner/config-server-service</directory>
+                  <filemode>755</filemode>
+                  <username>runner</username>
+                  <groupname>runner</groupname>
+                </mapping>
+                <mapping>
+                  <directory>/usr/local/runner/config-server-service</directory>
+                  <directoryIncluded>false</directoryIncluded>
+                  <username>runner</username>
+                  <groupname>runner</groupname>
+                  <filemode>755</filemode>
+                  <sources>
+                    <source>
+                      <location>${project.build.directory}/${project.artifactId}-${project.version}.jar</location>
+                    </source>
+                  </sources>
+                </mapping>
+                <mapping>
+                  <directory>/usr/local/runner/config-server-service</directory>
+                  <directoryIncluded>false</directoryIncluded>
+                  <username>runner</username>
+                  <groupname>runner</groupname>
+                  <filemode>664</filemode>
+                  <sources>
+                    <source>
+                      <location>${project.build.directory}/config-server-service.conf</location>
+                    </source>
+                  </sources>
+                </mapping>
+              </mappings>
+              <preinstallScriptlet>
+                <scriptFile>scripts/preinstall</scriptFile>
+                <fileEncoding>utf-8</fileEncoding>
+              </preinstallScriptlet>
+              <postinstallScriptlet>
+                <scriptFile>scripts/postinstall</scriptFile>
+                <fileEncoding>utf-8</fileEncoding>
+              </postinstallScriptlet>
+              <preremoveScriptlet>
+                <scriptFile>scripts/preremove</scriptFile>
+                <fileEncoding>utf-8</fileEncoding>
+              </preremoveScriptlet>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <repositories>
     <repository>
