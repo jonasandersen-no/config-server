@@ -46,6 +46,13 @@ stages:
               mavenAuthenticateFeed: true
               effectivePomSkip: true
               sonarQubeRunAnalysis: false
+          - task: CopyFiles@2
+            displayName: 'Copy RPMs'
+            inputs:
+              Contents: '**/*.rpm'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)'
+              CleanTargetFolder: true
+              flattenFolders: true
           - task: GitHubRelease@1
             inputs:
               gitHubConnection: 'GitHub - NotBjoggisAtAll'
@@ -54,6 +61,6 @@ stages:
               target: '$(Build.SourceVersion)'
               tagSource: 'userSpecifiedTag'
               tag: '$(Build.BuildId)'
-              assets: '$(System.DefaultWorkingDirectory)/*.rpm'
+              assets: '$(Build.ArtifactStagingDirectory)'
               changeLogCompareToRelease: 'lastFullRelease'
               changeLogType: 'commitBased'
