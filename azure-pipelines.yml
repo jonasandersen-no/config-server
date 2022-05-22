@@ -35,7 +35,7 @@ stages:
           - task: Maven@3
             inputs:
               mavenPomFile: 'pom.xml'
-              goals: 'clean deploy'
+              goals: 'clean package deploy'
               options: '-T 4 -P rpmbuilder'
               publishJUnitResults: true
               testResultsFiles: '**/surefire-reports/TEST-*.xml'
