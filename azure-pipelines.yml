@@ -31,7 +31,7 @@ stages:
                 path: $(MAVEN_CACHE_FOLDER)
           - task: MavenAuthenticate@0
             inputs:
-              artifactsFeeds: 'bjoggis-studios-maven'
+              artifactsFeeds: 'bjoggis-studios-only'
           - task: Maven@3
             inputs:
               mavenPomFile: 'pom.xml'
