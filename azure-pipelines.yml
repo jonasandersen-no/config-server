@@ -54,5 +54,6 @@ stages:
               target: '$(Build.SourceVersion)'
               tagSource: 'userSpecifiedTag'
               tag: '$(Build.BuildId)'
+              assets: '$(System.DefaultWorkingDirectory)/*.rpm'
               changeLogCompareToRelease: 'lastFullRelease'
               changeLogType: 'commitBased'
