@@ -229,29 +229,6 @@
         </plugins>
       </build>
     </profile>
-    <profile>
-      <id>azure</id>
-      <distributionManagement>
-        <repository>
-          <id>bjoggis-studios-only</id>
-          <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
-        </repository>
-        <snapshotRepository>
-          <id>bjoggis-studios-only</id>
-          <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
-        </snapshotRepository>
-      </distributionManagement>
-    </profile>
-    <profile>
-      <id>github</id>
-      <distributionManagement>
-        <repository>
-          <id>github</id>
-          <name>GitHub Packages</name>
-          <url>https://maven.pkg.github.com/Bjoggis-Studios/config-server</url>
-        </repository>
-      </distributionManagement>
-    </profile>
   </profiles>
 
   <repositories>
@@ -266,5 +243,17 @@
       </snapshots>
     </repository>
   </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>bjoggis-studios-only</id>
+      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
+    </repository>
+    <snapshotRepository>
+      <id>bjoggis-studios-only</id>
+      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
+    </snapshotRepository>
+  </distributionManagement>
+
 
 </project>
