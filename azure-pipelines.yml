@@ -35,8 +35,8 @@ stages:
           - task: Maven@3
             inputs:
               mavenPomFile: 'pom.xml'
-              goals: 'clean test deploy'
-              options: '-T 4'
+              goals: 'clean deploy'
+              options: '-T 4 -P rpmbuilder'
               publishJUnitResults: true
               testResultsFiles: '**/surefire-reports/TEST-*.xml'
               javaHomeOption: 'JDKVersion'
@@ -46,29 +46,12 @@ stages:
               mavenAuthenticateFeed: true
               effectivePomSkip: true
               sonarQubeRunAnalysis: false
-          - task: DockerCompose@0
+          - task: GitHubRelease@1
             inputs:
-              containerregistrytype: 'Azure Container Registry'
-              azureSubscription: 'Pay-As-You-Go(5b21c31b-9aa7-41ed-9b15-42992ae6edf7)'
-              azureContainerRegistry: '{"loginServer":"bjoggisacr.azurecr.io", "id" : "/subscriptions/5b21c31b-9aa7-41ed-9b15-42992ae6edf7/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.ContainerRegistry/registries/bjoggisacr"}'
-              dockerComposeFile: '**/docker-compose.yml'
-              action: 'Build services'
-              includeSourceTags: true
-          - task: DockerCompose@0
-            inputs:
-              containerregistrytype: 'Azure Container Registry'
-              azureSubscription: 'Pay-As-You-Go(5b21c31b-9aa7-41ed-9b15-42992ae6edf7)'
-              azureContainerRegistry: '{"loginServer":"bjoggisacr.azurecr.io", "id" : "/subscriptions/5b21c31b-9aa7-41ed-9b15-42992ae6edf7/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.ContainerRegistry/registries/bjoggisacr"}'
-              dockerComposeFile: '**/docker-compose.yml'
-              action: 'Push services'
-              includeSourceTags: true
-          - task: SSH@0
-            inputs:
-              sshEndpoint: 'Bjoggis01'
-              runOptions: 'commands'
-              commands: |
-                docker stop config-server || true
-                docker rm config-server || true
-                docker run -d --pull always --name config-server -p 8888:8888 bjoggisacr.azurecr.io/config-server || true
-              failOnStdErr: false
-              readyTimeout: '20000'
+              gitHubConnection: 'GitHub - NotBjoggisAtAll'
+              repositoryName: '$(Build.Repository.Name)'
+              action: 'create'
+              target: '$(Build.SourceVersion)'
+              tagSource: 'gitTag'
+              changeLogCompareToRelease: 'lastFullRelease'
+              changeLogType: 'commitBased'
