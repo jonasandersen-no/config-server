@@ -231,6 +231,12 @@
     </profile>
   </profiles>
 
+  <scm>
+    <connection>scm:git:git@github.com:Bjoggis-Studios/config-server.git</connection>
+    <url>scm:git:git@github.com:Bjoggis-Studios/config-server.git</url>
+    <developerConnection>scm:git:git@github.com:Bjoggis-Studios/config-server.git</developerConnection>
+  </scm>
+
   <repositories>
     <repository>
       <id>bjoggis-studios-only</id>
