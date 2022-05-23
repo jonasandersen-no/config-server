@@ -1,8 +1,0 @@
-services:
-  config-server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: config-server
-    ports:
-      - 8888:8888
