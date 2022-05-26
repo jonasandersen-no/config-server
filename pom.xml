@@ -19,7 +19,7 @@
   <properties>
     <java.version>17</java.version>
     <spring-cloud.version>2021.0.2</spring-cloud.version>
-    <systemd-connector.version>1.0-SNAPSHOT</systemd-connector.version>
+    <systemd-connector.version>1.3</systemd-connector.version>
   </properties>
 
   <dependencies>
@@ -231,16 +231,10 @@
     </profile>
   </profiles>
 
-  <scm>
-    <connection>scm:git:git@github.com:Bjoggis-Studios/config-server.git</connection>
-    <url>scm:git:git@github.com:Bjoggis-Studios/config-server.git</url>
-    <developerConnection>scm:git:git@github.com:Bjoggis-Studios/config-server.git</developerConnection>
-  </scm>
-
   <repositories>
     <repository>
-      <id>bjoggis-studios-only</id>
-      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1</url>
+      <id>bjoggis-studios-releases</id>
+      <url>https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-releases/maven/v1</url>
       <releases>
         <enabled>true</enabled>
       </releases>

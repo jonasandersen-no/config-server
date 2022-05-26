@@ -1,18 +1,22 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+name: $(Build.SourceBranchName) $(Date:yyyy-MM-dd).$(BuildID)
 
 trigger:
-  - master
+  branches:
+    include:
+      - "*"
+  tags:
+    include:
+      - "v*"
 
-resources:
-  - repo: self
+pr:
+  - "*"
 
 variables:
-  tag: '$(Build.BuildId)'
   MAVEN_CACHE_FOLDER: $(Pipeline.Workspace)/.m2/repository
   MAVEN_OPTS: '-Dmaven.repo.local=$(MAVEN_CACHE_FOLDER)'
-  isMain: $[eq(variables['Build.SourceBranch'], 'refs/heads/main')]
+  tagBuild: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/')]
+  releaseBranchBuild: $[startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')]
+  prBuild: $[startsWith(variables['Build.SourceBranch'], 'refs/pull/')]
 
 stages:
   - stage: Build
@@ -21,46 +25,61 @@ stages:
       - job: Build
         displayName: Build
         steps:
-          - task: Cache@2
-            displayName: Cache Maven local repo
+          - task: Bash@3
+            displayName: Find release version
+            condition: eq(variables.tagBuild, 'true')
             inputs:
-                key: 'maven | "$(Agent.OS)" | **/pom.xml'
-                restoreKeys: |
-                  maven | "$(Agent.OS)"
-                  maven
-                path: $(MAVEN_CACHE_FOLDER)
+              targetType: 'inline'
+              script: |
+                echo "##vso[task.setvariable variable=version]`grep -o -P '(?<=version\>).*(?=-SNAPSHOT)' pom.xml | head -n 1`"
           - task: MavenAuthenticate@0
             inputs:
-              artifactsFeeds: 'bjoggis-studios-only'
+              artifactsFeeds: 'bjoggis-studios-only, bjoggis-studios-releases'
+          - task: Cache@2
+            inputs:
+              key: 'maven|v1'
+              path: '$(MAVEN_CACHE_FOLDER)'
+            displayName: Cache Maven local repo
           - task: Maven@3
+            displayName: Prepare Release
+            condition: eq(variables.tagBuild, 'true')
+            inputs:
+              mavenPomFile: pom.xml
+              goals: versions:set -DnewVersion=$(VERSION) -DgenerateBackupPoms=false --no-transfer-progress
+              options: $(MAVEN_OPTS)
+              skipEffectivePom: true
+              publishJUnitResults: false
+          - task: Maven@3
+            displayName: mvn clean verify
             inputs:
               mavenPomFile: 'pom.xml'
-              goals: 'clean package deploy'
-              options: '-T 4 -P rpmbuilder'
-              publishJUnitResults: true
-              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              mavenOptions: '-Xmx3072m $(MAVEN_OPTS)'
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.17'
-              mavenVersionOption: 'Default'
-              mavenOptions: '-Xmx3072m $(MAVEN_OPTS)'
-              mavenAuthenticateFeed: true
+              jdkArchitectureOption: 'x64'
+              publishJUnitResults: true
+              checkStyleRunAnalysis: true
+              codeCoverageToolOption: JaCoCo
               effectivePomSkip: true
-              sonarQubeRunAnalysis: false
-          - task: CopyFiles@2
-            displayName: 'Copy RPMs'
+              testResultsFiles: '**/surefire-reports/TEST-*.xml'
+              goals: '-Pcoverage clean verify -T4 --no-transfer-progress'
+          - task: Maven@3
+            displayName: mvn package
             inputs:
-              Contents: '**/*.rpm'
-              TargetFolder: '$(Build.ArtifactStagingDirectory)'
-              CleanTargetFolder: true
-              flattenFolders: true
-          - task: GitHubRelease@1
+              mavenPomFile: 'pom.xml'
+              mavenOptions: '-Xmx3072m $(MAVEN_OPTS)'
+              javaHomeOption: 'JDKVersion'
+              jdkVersionOption: '1.17'
+              jdkArchitectureOption: 'x64'
+              effectivePomSkip: true
+              publishJUnitResults: false
+              goals: '-DskipTests -Prpmbuilder package --no-transfer-progress'
+          - task: Maven@3
+            displayName: mvn deploy
+            condition: and(succeeded(), or(eq(variables['Build.SourceBranchName'], 'master'), eq(variables.tagBuild, 'true'), eq(variables.releaseBranchBuild, 'true'), eq(variables.prBuild, 'true')))
             inputs:
-              gitHubConnection: 'GitHub - NotBjoggisAtAll'
-              repositoryName: '$(Build.Repository.Name)'
-              action: 'create'
-              target: '$(Build.SourceVersion)'
-              tagSource: 'userSpecifiedTag'
-              tag: '$(Build.BuildId)'
-              assets: '$(Build.ArtifactStagingDirectory)/**'
-              changeLogCompareToRelease: 'lastFullRelease'
-              changeLogType: 'commitBased'
+              mavenPomFile: 'pom.xml'
+              goals: '-DskipTests deploy --no-transfer-progress'
+              mavenOptions: '$(MAVEN_OPTS)'
+              skipEffectivePom: true
+              publishJUnitResults: false
