@@ -73,13 +73,13 @@ stages:
               jdkArchitectureOption: 'x64'
               effectivePomSkip: true
               publishJUnitResults: false
-              goals: '-DskipTests -Prpmbuilder package --no-transfer-progress'
+              goals: '-DskipTests package --no-transfer-progress'
           - task: Maven@3
             displayName: mvn deploy
             condition: and(succeeded(), or(eq(variables['Build.SourceBranchName'], 'master'), eq(variables.tagBuild, 'true'), eq(variables.releaseBranchBuild, 'true'), eq(variables.prBuild, 'true')))
             inputs:
               mavenPomFile: 'pom.xml'
-              goals: '-DskipTests deploy --no-transfer-progress'
+              goals: '-DskipTests -Prpmbuilder  deploy --no-transfer-progress'
               mavenOptions: '$(MAVEN_OPTS)'
               skipEffectivePom: true
               publishJUnitResults: false
