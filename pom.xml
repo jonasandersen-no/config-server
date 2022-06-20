@@ -192,6 +192,13 @@
                   <groupname>runner</groupname>
                 </mapping>
                 <mapping>
+                  <directory>/usr/local/runner/config-server-service/config</directory>
+                  <configuration>true</configuration>
+                  <filemode>755</filemode>
+                  <username>runner</username>
+                  <groupname>runner</groupname>
+                </mapping>
+                <mapping>
                   <directory>/usr/local/runner/config-server-service</directory>
                   <directoryIncluded>false</directoryIncluded>
                   <username>runner</username>
