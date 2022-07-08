@@ -15,3 +15,6 @@ TimeoutStopSec=180
 RestartSec=60
 Restart=on-failure
 SuccessExitStatus=143
+
+[Install]
+WantedBy=default.target
