@@ -53,16 +53,16 @@ stages:
             displayName: mvn clean verify
             inputs:
               mavenPomFile: 'pom.xml'
-              mavenOptions: '-Xmx3072m $(MAVEN_OPTS)'
+              goals: 'clean verify -T4 --no-transfer-progress'
+              publishJUnitResults: false
               javaHomeOption: 'JDKVersion'
               jdkVersionOption: '1.17'
-              jdkArchitectureOption: 'x64'
-              publishJUnitResults: true
-              checkStyleRunAnalysis: true
-              codeCoverageToolOption: JaCoCo
+              mavenVersionOption: 'Default'
+              mavenOptions: '-Xmx3072m $(MAVEN_OPTS)'
+              mavenAuthenticateFeed: false
               effectivePomSkip: true
-              testResultsFiles: '**/surefire-reports/TEST-*.xml'
-              goals: '-Pcoverage clean verify -T4 --no-transfer-progress'
+              sonarQubeRunAnalysis: false
+              checkStyleRunAnalysis: true
           - task: Maven@3
             displayName: mvn package
             inputs:
@@ -80,6 +80,30 @@ stages:
             inputs:
               mavenPomFile: 'pom.xml'
               goals: '-DskipTests -Prpmbuilder deploy --no-transfer-progress'
+              mavenOptions: '$(MAVEN_OPTS)'
+              skipEffectivePom: true
+              publishJUnitResults: false
+          - task: Maven@3
+            displayName: Docker Build
+            inputs:
+              mavenPomFile: 'pom.xml'
+              goals: '-DskipTests docker:build'
+              mavenOptions: '$(MAVEN_OPTS)'
+              skipEffectivePom: true
+              publishJUnitResults: false
+          - task: Bash@3
+            displayName: Docker Authenticate
+            env:
+              DOCKER_PASSWORD: $(docker-password)
+            inputs:
+              targetType: 'inline'
+              script: |
+                docker login -u $(docker-username) -p $DOCKER_PASSWORD
+          - task: Maven@3
+            displayName: Docker Push
+            inputs:
+              mavenPomFile: 'pom.xml'
+              goals: '-DskipTests docker:push'
               mavenOptions: '$(MAVEN_OPTS)'
               skipEffectivePom: true
               publishJUnitResults: false
