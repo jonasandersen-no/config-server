@@ -12,7 +12,7 @@
 
   <groupId>com.bjoggis</groupId>
   <artifactId>bjoggis-config-server-service</artifactId>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.4-SNAPSHOT</version>
   <name>Config Server</name>
   <description>Config server for Bjoggis Studios applications</description>
 
@@ -115,6 +115,18 @@
       </url>
       <releases>
         <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>bjoggis-studios-only</id>
+      <url>
+        https://pkgs.dev.azure.com/bjoggis-studios/bjoggis-mono/_packaging/bjoggis-studios-only/maven/v1
+      </url>
+      <releases>
+        <enabled>false</enabled>
       </releases>
       <snapshots>
         <enabled>true</enabled>
