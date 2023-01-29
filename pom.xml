@@ -87,7 +87,7 @@
           <docker>
             <publishRegistry>
               <username>NotBjoggisAtAll</username>
-              <password>${env.GITHUB_TOKEN}</password>
+              <password>${env.DOCKER_TOKEN}</password>
               <url>https://ghcr.io</url>
             </publishRegistry>
           </docker>
