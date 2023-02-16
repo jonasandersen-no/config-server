@@ -1,15 +1,15 @@
 # This workflow will build a package using Maven and then publish it to GitHub packages when a release is created
 # For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#apache-maven-with-a-settings-path
 
-name: Build release version and deploy
+name: Build latest master and deploy
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - master
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -36,15 +36,8 @@ jobs:
                 "username": "${{ secrets.REPOSILITE_USERNAME }}",
                 "password": "${{ secrets.REPOSILITE_PASSWORD }}"
             }]
-      - name: Update version in pom.xml (Release only)
-        run: mvn -B versions:set -DnewVersion=${VERSION:1} -DgenerateBackupPoms=false
-        env:
-          VERSION: ${{ github.event.release.tag_name }}
       - name: Build with Maven
-        run: mvn clean package -T 4
-
-      - name: Publish to GitHub Packages Apache Maven
-        run: mvn deploy
+        run: mvn clean deploy -T 4
         env:
           GITHUB_TOKEN: ${{ github.token }}
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
