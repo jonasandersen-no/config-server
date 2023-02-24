@@ -12,7 +12,7 @@
 
   <groupId>com.bjoggis.config</groupId>
   <artifactId>bjoggis-config-server-service</artifactId>
-  <version>3.1-SNAPSHOT</version>
+  <version>3.2-SNAPSHOT</version>
   <name>Config Server Service</name>
   <description>Config server for Bjoggis Studios applications</description>
 
