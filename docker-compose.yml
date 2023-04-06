@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   bjoggis-config-server-service:
-    image: ghcr.io/notbjoggisatall/bjoggis-config-server-service:3.2-SNAPSHOT
+    image: ghcr.io/notbjoggisatall/bjoggis-config-server-service:3.2
     container_name: config-server
     restart: always
     ports:
