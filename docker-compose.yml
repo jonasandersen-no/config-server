@@ -1,0 +1,28 @@
+version: "3.8"
+services:
+  bjoggis-config-server-service:
+    image: ghcr.io/notbjoggisatall/bjoggis-config-server-service:3.2-SNAPSHOT
+    container_name: config-server
+    restart: always
+    ports:
+      - "8888:8888"
+      - "8889:8889"
+    volumes:
+      - "utils:/utils"
+    environment:
+      - ENCRYPT_KEY=${ENCRYPT_KEY}
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - "internal"
+    healthcheck:
+      test: "/utils/curl --fail --silent http://localhost:8889/actuator/health"
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 60s
+volumes:
+  utils:
+    external: true
+networks:
+  internal:
+    external: true
