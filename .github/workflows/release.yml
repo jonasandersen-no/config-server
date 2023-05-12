@@ -54,8 +54,10 @@ jobs:
 
       - name: Update docker-compose file
         run: |
-          sed -i "s/image: ghcr.io\/notbjoggisatall\/bjoggis-config-server-service:.*$/image: ghcr.io\/notbjoggisatall\/bjoggis-config-server-service:${{ github.event.release.tag_name#v }}/" docker-compose.yml
+          sed -i "s/image: ghcr.io\/notbjoggisatall\/bjoggis-config-server-service:.*$/image: ghcr.io\/notbjoggisatall\/bjoggis-config-server-service:${VERSION:1}/" docker-compose.yml
         shell: bash
+        env:
+          VERSION: ${{ github.event.release.tag_name }}
         
       - name: Push changes and create pull request
         uses: peter-evans/create-pull-request@v5
@@ -66,4 +68,5 @@ jobs:
           commit-message: "Update version to ${{ env.NEXT_VERSION }}"
           title: "Update version to ${{ env.NEXT_VERSION }}"
           body: "Update version to ${{ env.NEXT_VERSION }}"
+    
 
