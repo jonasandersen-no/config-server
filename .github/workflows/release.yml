@@ -52,6 +52,11 @@ jobs:
       - name: Find next snapshot version
         run: echo "NEXT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
 
+      - name: Update docker-compose file
+        run: |
+          sed -i "s/image: ghcr.io\/notbjoggisatall\/bjoggis-config-server-service:.*$/image: ghcr.io\/notbjoggisatall\/bjoggis-config-server-service:${{ github.event.release.tag_name }}}/" docker-compose.yml
+        shell: bash
+        
       - name: Push changes and create pull request
         uses: peter-evans/create-pull-request@v5
         with:
