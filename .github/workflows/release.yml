@@ -55,6 +55,7 @@ jobs:
       - name: Push changes and create pull request
         uses: peter-evans/create-pull-request@v5
         with:
+          author: github-actions[bot] <$github-actions[bot]@users.noreply.github.com>
           base: master
           branch: "update-version-to-${{ env.NEXT_VERSION }}"
           commit-message: "Update version to ${{ env.NEXT_VERSION }}"
