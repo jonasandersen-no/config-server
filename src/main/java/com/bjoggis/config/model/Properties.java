@@ -19,7 +19,7 @@ public class Properties {
   private String label;
   private String name;
   private String value;
-  private boolean secret;
+  private Boolean secret;
 
   public Long getId() {
     return id;
@@ -69,11 +69,11 @@ public class Properties {
     this.value = value;
   }
 
-  public boolean isSecret() {
+  public Boolean isSecret() {
     return secret;
   }
 
-  public void setSecret(boolean secret) {
+  public void setSecret(Boolean secret) {
     this.secret = secret;
   }
 }
