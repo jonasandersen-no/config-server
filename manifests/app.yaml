@@ -39,7 +39,7 @@ spec:
     app: config-server
   ports:
     - protocol: TCP
-      port: 8888
+      port: 80
       targetPort: 8888
 ---
 apiVersion: networking.k8s.io/v1
@@ -59,4 +59,4 @@ spec:
               service:
                 name: config-server-service
                 port:
-                  number: 8888
+                  number: 80
