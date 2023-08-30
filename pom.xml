@@ -10,7 +10,7 @@
 
   <groupId>com.bjoggis.config</groupId>
   <artifactId>bjoggis-config-server-service</artifactId>
-  <version>3.12-SNAPSHOT</version>
+  <version>3.13-SNAPSHOT</version>
   <name>Config Server Service</name>
   <description>Config server for Bjoggis Studios applications</description>
 
