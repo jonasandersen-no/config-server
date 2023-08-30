@@ -5,7 +5,7 @@ name: Build release version and deploy
 
 on:
   release:
-    types: [created]
+    types: [ created ]
 
 jobs:
   build:
@@ -45,20 +45,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-          
+
       - name: Update version in pom.xml (Release only)
         run: mvn --batch-mode release:update-versions -DautoVersionSubmodules=true
 
-      - name: Find next snapshot version
-        run: echo "NEXT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
-
-      - name: Update docker-compose file
-        run: |
-          sed -i "s/image: ghcr.io\/notbjoggisatall\/bjoggis-config-server-service:.*$/image: ghcr.io\/notbjoggisatall\/bjoggis-config-server-service:${VERSION:1}/" manifests/app.yaml
-        shell: bash
-        env:
-          VERSION: ${{ github.event.release.tag_name }}
-        
       - name: Push changes and create pull request
         uses: peter-evans/create-pull-request@v5
         with:
