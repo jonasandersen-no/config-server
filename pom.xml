@@ -81,6 +81,10 @@
             <name>bjoggis/${project.artifactId}:v${project.version}-${os.detected.arch}
             </name>
           </image>
+          <arguments>
+            <argument>-H:-AddAllFileSystemProviders --strict-image-heap --initialize-at-build-time=org.bouncycastle --initialize-at-build-time=net.i2p.crypto.eddsa.EdDSASecurityProvider --initialize-at-run-time=org.bouncycastle.jcajce.provider.drbg.DRBG$Default --initialize-at-run-time=org.bouncycastle.jcajce.provider.drbg.DRBG$NonceAndIV</argument>
+            <!-- Add other arguments if needed -->
+          </arguments>
         </configuration>
       </plugin>
 
