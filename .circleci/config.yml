@@ -19,7 +19,7 @@ jobs:
           version: 21.0.1-graalce
       - run:
           name: "mvnw spring-boot:build-image"
-          command: "./mvnw spring-boot:build-image"
+          command: "./mvnw spring-boot:build-image -Pnative"
       - docker/check:
           docker-username: DOCKER_LOGIN
           docker-password: DOCKERHUB_PASSWORD
