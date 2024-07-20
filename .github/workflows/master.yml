@@ -2,8 +2,8 @@ name: Build latest master and deploy
 
 on:
   push:
-    tags:
-      - v*
+    branches:
+      - master
 
 jobs:
   build:
@@ -40,7 +40,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build with Maven
-        run: mvn spring-boot:build-image
+        run: mvn clean deploy
 
       - name: Push Images to Docker Registry
         run: docker push -a bjoggis/config-server
@@ -55,7 +55,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: create-manifest
         run: |
-          docker manifest create bjoggis/config-server:${{ github.ref_name }} --amend bjoggis/config-server:${{ github.ref_name }}-x86_64 --amend bjoggis/config-server:${{ github.ref_name }}-aarch_64
-          docker manifest push bjoggis/config-server:${{ github.ref_name }}
-          docker manifest create bjoggis/config-server:latest --amend bjoggis/config-server:${{ github.ref_name }}-x86_64 --amend bjoggis/config-server:${{ github.ref_name }}-aarch_64
+          docker manifest create bjoggis/config-server:v0.0.0 --amend bjoggis/config-server:v0.0.0-x86_64 --amend bjoggis/config-server:v0.0.0-aarch_64
+          docker manifest push bjoggis/config-server:v0.0.0
+          docker manifest create bjoggis/config-server:latest --amend bjoggis/config-server:v0.0.0-x86_64 --amend bjoggis/config-server:v0.0.0-aarch_64
           docker manifest push bjoggis/config-server:latest
