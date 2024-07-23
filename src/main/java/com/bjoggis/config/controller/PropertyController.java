@@ -80,10 +80,10 @@ public class PropertyController {
   }
 
   @PostMapping("/import")
-    //CSV formatted properties. New line separated, comma separated values.
-    //application,label,name,profile,secret,value.
-  ResponseEntity<Void> importProperties(@RequestParam("file") MultipartFile file) throws IOException {
-    //parse CSV and save
+  //CSV formatted properties. New line separated, comma separated values.
+  //application,label,name,profile,secret,value.
+  ResponseEntity<Void> importProperties(@RequestParam("file") MultipartFile file)
+      throws IOException {
     log.info("Importing properties from file: {}", file.getOriginalFilename());
     int count = 0;
     try (InputStream inputStream = file.getInputStream()) {
@@ -104,7 +104,7 @@ public class PropertyController {
           }
         }
       }
-    }finally {
+    } finally {
       log.info("Imported {} properties", count);
     }
 
