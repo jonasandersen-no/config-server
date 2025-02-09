@@ -12,12 +12,12 @@
 
   <groupId>com.bjoggis.config</groupId>
   <artifactId>config-server</artifactId>
-  <version>0</version>
+  <version>3.13.0-SNAPSHOT</version>
   <name>Config Server Service</name>
   <description>Config server for Bjoggis Studios applications</description>
 
   <properties>
-    <java.version>22</java.version>
+    <java.version>23</java.version>
     <spring-cloud.version>2024.0.0</spring-cloud.version>
   </properties>
 
@@ -93,7 +93,7 @@
               <buildpack>paketobuildpacks/java</buildpack>
             </buildpacks>
             <env>
-              <BP_JVM_VERSION>22</BP_JVM_VERSION>
+              <BP_JVM_VERSION>23</BP_JVM_VERSION>
             </env>
           </image>
         </configuration>
@@ -133,7 +133,7 @@
     <repository>
       <id>reposilite-releases</id>
       <name>Reposilite Releases</name>
-      <url>https://maven.bjoggis.com/releases</url>
+      <url>https://maven.jonasandersen.no/releases</url>
       <releases>
         <enabled>true</enabled>
       </releases>
@@ -144,7 +144,7 @@
     <repository>
       <id>reposilite-snapshots</id>
       <name>Reposilite Snapshots</name>
-      <url>https://maven.bjoggis.com/snapshots</url>
+      <url>https://maven.jonasandersen.no/snapshots</url>
       <releases>
         <enabled>false</enabled>
       </releases>
@@ -157,12 +157,12 @@
     <repository>
       <id>reposilite-releases</id>
       <name>Reposilite Releases</name>
-      <url>https://maven.bjoggis.com/releases</url>
+      <url>https://maven.jonasandersen.no/releases</url>
     </repository>
     <snapshotRepository>
       <id>reposilite-snapshots</id>
       <name>Reposilite Snapshots</name>
-      <url>https://maven.bjoggis.com/snapshots</url>
+      <url>https://maven.jonasandersen.no/snapshots</url>
     </snapshotRepository>
   </distributionManagement>
 </project>
