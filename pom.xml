@@ -10,7 +10,7 @@
 
   <groupId>com.bjoggis.config</groupId>
   <artifactId>config-server-parent</artifactId>
-  <version>3.13.1</version>
+  <version>3.13.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Config Server Parent</name>
   <description>Config server for Bjoggis Studios applications</description>
@@ -29,8 +29,8 @@
   <scm>
     <connection>scm:git:git@github.com:jonasandersen-no/config-server.git</connection>
     <developerConnection>scm:git:git@github.com:jonasandersen-no/config-server.git</developerConnection>
-    <tag>v3.13.1</tag>
-    <url />
+    <tag></tag>
+    <url></url>
   </scm>
 
   <properties>
