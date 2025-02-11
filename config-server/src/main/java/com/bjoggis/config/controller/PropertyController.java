@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +60,9 @@ public class PropertyController {
       searchBy.setProfile(profile);
     }
     final Example<Properties> example = Example.of(searchBy);
-    final List<Properties> properties = repository.findAll(example);
+    var propertiesI = repository.findAll();
+    List<Properties> properties = new ArrayList<>();
+    propertiesI.forEach(properties::add);
     properties.sort(Comparator.comparing(Properties::getId));
     return properties;
   }
@@ -80,8 +83,8 @@ public class PropertyController {
   }
 
   @PostMapping("/import")
-  //CSV formatted properties. New line separated, comma separated values.
-  //application,label,name,profile,secret,value.
+  // CSV formatted properties. New line separated, comma separated values.
+  // application,label,name,profile,secret,value.
   ResponseEntity<Void> importProperties(@RequestParam("file") MultipartFile file)
       throws IOException {
     log.info("Importing properties from file: {}", file.getOriginalFilename());

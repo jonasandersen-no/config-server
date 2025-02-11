@@ -1,0 +1,47 @@
+databaseChangeLog:
+- changeSet:
+    id: '1739303732040'
+    author: Spring Data Relational
+    objectQuotingStrategy: LEGACY
+    changes:
+    - createTable:
+        columns:
+        - column:
+            autoIncrement: true
+            constraints:
+              nullable: true
+              primaryKey: true
+            name: id
+            type: BIGINT
+        - column:
+            constraints:
+              nullable: true
+            name: application
+            type: VARCHAR(255 BYTE)
+        - column:
+            constraints:
+              nullable: true
+            name: profile
+            type: VARCHAR(255 BYTE)
+        - column:
+            constraints:
+              nullable: true
+            name: label
+            type: VARCHAR(255 BYTE)
+        - column:
+            constraints:
+              nullable: true
+            name: name
+            type: TEXT
+        - column:
+            constraints:
+              nullable: true
+            name: value
+            type: TEXT
+        - column:
+            constraints:
+              nullable: true
+            name: secret
+            type: BOOLEAN
+        tableName: properties
+

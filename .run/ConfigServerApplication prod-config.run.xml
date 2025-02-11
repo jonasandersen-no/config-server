@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="ConfigServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-    <option name="ACTIVE_PROFILES" value="intellij" />
+  <configuration default="false" name="ConfigServerApplication prod-config" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <option name="ACTIVE_PROFILES" value="prod" />
     <module name="config-server" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.bjoggis.config.ConfigServerApplication" />
     <method v="2">
