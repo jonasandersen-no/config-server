@@ -1,6 +1,5 @@
 package com.bjoggis.config;
 
-import com.bjoggis.config.model.Properties;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;

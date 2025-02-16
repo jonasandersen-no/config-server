@@ -1,20 +1,14 @@
-package com.bjoggis.config.controller;
+package com.bjoggis.config;
 
-import com.bjoggis.config.model.Properties;
-import com.bjoggis.config.repository.PropertiesRepository;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,49 +21,52 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/properties")
-public class PropertyController {
+class PropertyController {
 
   private static final Logger log = LoggerFactory.getLogger(PropertyController.class);
   private final PropertiesRepository repository;
 
-  public PropertyController(PropertiesRepository repository) {
+  PropertyController(PropertiesRepository repository) {
     this.repository = repository;
   }
 
   @GetMapping("/{id}")
   ResponseEntity<Properties> get(@PathVariable Long id) {
     Optional<Properties> properties = repository.findById(id);
-
     return properties.map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
   }
 
+  @GetMapping("/application/{application}")
+  List<Properties> findByApplication(@PathVariable String application) {
+    return repository.findAllByApplication(application);
+  }
+
+  @GetMapping("/application/{application}/profile/{profile}")
+  List<Properties> findByApplicationAndProfile(@PathVariable String application, @PathVariable String profile) {
+    return repository.findAllByApplicationAndProfile(application, profile);
+  }
+
+  @GetMapping("/key/{key}")
+  List<Properties> findByKey(@PathVariable String key) {
+    return repository.findAllByKey(key);
+  }
 
   @GetMapping
-  List<Properties> list(@RequestParam(required = false) String application,
-      @RequestParam(required = false) String key,
-      @RequestParam(required = false) String profile) {
-    Properties searchBy = new Properties();
-    if (StringUtils.hasText(application)) {
-      searchBy.setApplication(application);
-    }
-    if (StringUtils.hasText(key)) {
-      searchBy.setName(key);
-    }
-    if (StringUtils.hasText(profile)) {
-      searchBy.setProfile(profile);
-    }
-    final Example<Properties> example = Example.of(searchBy);
-    var propertiesI = repository.findAll();
-    List<Properties> properties = new ArrayList<>();
-    propertiesI.forEach(properties::add);
-    properties.sort(Comparator.comparing(Properties::getId));
-    return properties;
+  List<Properties> findAll() {
+    return repository.findAll();
   }
 
   @PostMapping
-  Properties create(@RequestBody Properties properties) {
-    return repository.save(properties);
+  Properties create(@RequestBody CreatePropertyRequest properties) {
+    Properties entity = new Properties();
+    entity.setApplication(properties.application());
+    entity.setProfile(properties.profile());
+    entity.setLabel(properties.label());
+    entity.setName(properties.key());
+    entity.setValue(properties.value());
+    entity.setSecret(properties.secret());
+    return repository.save(entity);
   }
 
   @DeleteMapping("/{id}")
@@ -83,8 +80,8 @@ public class PropertyController {
   }
 
   @PostMapping("/import")
-  // CSV formatted properties. New line separated, comma separated values.
-  // application,label,name,profile,secret,value.
+    // CSV formatted properties. New line separated, comma separated values.
+    // application,label,name,profile,secret,value.
   ResponseEntity<Void> importProperties(@RequestParam("file") MultipartFile file)
       throws IOException {
     log.info("Importing properties from file: {}", file.getOriginalFilename());
