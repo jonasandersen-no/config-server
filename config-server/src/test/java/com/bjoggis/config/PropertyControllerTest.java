@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
@@ -47,7 +48,7 @@ class PropertyControllerTest {
     }
 
     @Test
-    void tooLargeValue() throws JsonProcessingException {
+    void failOnLargeValue() throws JsonProcessingException {
       MockMvcTester mvc = createFixture().mvc();
 
       mvc.post().uri("/properties")
@@ -161,6 +162,33 @@ class PropertyControllerTest {
           .convertTo(InstanceOfAssertFactories.list(Properties.class))
           .containsExactly(expected);
 
+    }
+
+    @Nested
+    class Delete {
+
+      @Test
+      void deleteOne() {
+        Fixture fixture = createFixture();
+        MockMvcTester mvc = fixture.mvc();
+        InMemoryPropertiesRepository repository = fixture.repository();
+        Properties saved = repository.save(new Properties("key", "value"));
+
+        mvc.delete().uri("/properties/%s".formatted(saved.getId()))
+            .assertThat()
+            .hasStatus2xxSuccessful();
+
+      }
+
+      @Test
+      void deleteNonExistingGivesNotFound() {
+        Fixture fixture = createFixture();
+        MockMvcTester mvc = fixture.mvc();
+
+        mvc.delete().uri("/properties/%s".formatted("1"))
+            .assertThat()
+            .hasStatus(HttpStatus.NOT_FOUND);
+      }
     }
   }
 
