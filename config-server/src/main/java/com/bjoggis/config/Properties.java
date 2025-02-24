@@ -156,14 +156,13 @@ class Properties {
 
   @Override
   public String toString() {
-    return "Properties{" +
-           "id=" + id +
-           ", application='" + application + '\'' +
-           ", profile='" + profile + '\'' +
-           ", label='" + label + '\'' +
-           ", name='" + name + '\'' +
-           ", value='" + value + '\'' +
-           ", secret=" + secret +
-           '}';
+    return "Properties{" + "id=" + id
+           + ", application='" + application + '\''
+           + ", profile='" + profile + '\''
+           + ", label='" + label + '\''
+           + ", name='" + name + '\''
+           + ", value='" + value + '\''
+           + ", secret=" + secret
+           + '}';
   }
 }
