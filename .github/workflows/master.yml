@@ -22,7 +22,7 @@ jobs:
       - name: Setup Maven Action
         uses: s4u/setup-maven-action@v1.12.0
         with:
-          java-version: 23
+          java-version: 24
           java-distribution: liberica
           checkout-persist-credentials: true
           cache-enabled: false

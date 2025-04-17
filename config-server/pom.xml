@@ -102,7 +102,7 @@
               <buildpack>paketobuildpacks/java</buildpack>
             </buildpacks>
             <env>
-              <BP_JVM_VERSION>23</BP_JVM_VERSION>
+              <BP_JVM_VERSION>24</BP_JVM_VERSION>
             </env>
           </image>
         </configuration>
