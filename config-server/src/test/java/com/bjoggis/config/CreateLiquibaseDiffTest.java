@@ -25,11 +25,9 @@ import org.springframework.test.context.ActiveProfiles;
 @Tag("manual")
 class CreateLiquibaseDiffTest {
 
-  @Autowired
-  RelationalMappingContext context;
+  @Autowired RelationalMappingContext context;
 
-  @Autowired
-  DataSource ds;
+  @Autowired DataSource ds;
 
   @Test
   void diffWithRealDb() throws IOException {
@@ -41,7 +39,7 @@ class CreateLiquibaseDiffTest {
     LiquibaseChangeSetWriter writer = new LiquibaseChangeSetWriter(context);
 
     // drop unused columns
-//    writer.setDropColumnFilter((table, column) -> !column.equalsIgnoreCase("special"));
+    //    writer.setDropColumnFilter((table, column) -> !column.equalsIgnoreCase("special"));
 
     // for comparison with existing schema
     try (Database db = new PostgresDatabase()) {
@@ -74,13 +72,14 @@ class CreateLiquibaseDiffTest {
 
     int max = 0;
     if (files != null) {
-      max = Arrays.stream(files)
-          .map(File::getName)
-          .map(name -> name.split("\\."))
-          .map(split -> split[1])
-          .map(Integer::parseInt)
-          .max(Integer::compareTo)
-          .orElse(0);
+      max =
+          Arrays.stream(files)
+              .map(File::getName)
+              .map(name -> name.split("\\."))
+              .map(split -> split[1])
+              .map(Integer::parseInt)
+              .max(Integer::compareTo)
+              .orElse(0);
     }
     return max + 1;
   }

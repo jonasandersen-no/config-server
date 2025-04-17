@@ -1,13 +1,7 @@
 package com.bjoggis.config;
 
 public record CreatePropertyRequest(
-    String application,
-    String profile,
-    String label,
-    String key,
-    String value,
-    Boolean secret
-) {
+    String application, String profile, String label, String key, String value, Boolean secret) {
 
   public CreatePropertyRequest {
     if (value.length() > 10000) {

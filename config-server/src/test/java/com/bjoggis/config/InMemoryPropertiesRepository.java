@@ -13,7 +13,8 @@ import org.springframework.data.repository.NoRepositoryBean;
 class InMemoryPropertiesRepository implements PropertiesRepository {
 
   private final Map<Long, PropertiesSnapshot> idToProperties = new HashMap<>();
-  private final Map<ApplicationAndProfile, List<PropertiesSnapshot>> applicationAndProfileToProperties = new HashMap<>();
+  private final Map<ApplicationAndProfile, List<PropertiesSnapshot>>
+      applicationAndProfileToProperties = new HashMap<>();
   private final Map<String, List<PropertiesSnapshot>> applicationToProperties = new HashMap<>();
   private final Map<String, List<PropertiesSnapshot>> keyToProperties = new HashMap<>();
   private final AtomicLong sequence = new AtomicLong();
@@ -46,17 +47,16 @@ class InMemoryPropertiesRepository implements PropertiesRepository {
 
   @Override
   public List<Properties> findAllByApplicationAndProfile(String application, String profile) {
-    return applicationAndProfileToProperties.get(new ApplicationAndProfile(application, profile)).stream()
+    return applicationAndProfileToProperties
+        .get(new ApplicationAndProfile(application, profile))
+        .stream()
         .map(Properties::new)
         .toList();
   }
 
   @Override
   public List<Properties> findAll() {
-    return idToProperties.values()
-        .stream()
-        .map(Properties::new)
-        .toList();
+    return idToProperties.values().stream().map(Properties::new).toList();
   }
 
   @Override
@@ -71,22 +71,19 @@ class InMemoryPropertiesRepository implements PropertiesRepository {
 
   @Override
   public List<Properties> findAllByApplication(String application) {
-    return applicationToProperties.get(application).stream()
-        .map(Properties::new)
-        .toList();
+    return applicationToProperties.get(application).stream().map(Properties::new).toList();
   }
 
   @Override
   public List<Properties> findAllByKey(String key) {
-    List<String> keys = keyToProperties.keySet().stream()
-        .filter(s -> s.toUpperCase().contains(key.toUpperCase()))
-        .toList();
+    List<String> keys =
+        keyToProperties.keySet().stream()
+            .filter(s -> s.toUpperCase().contains(key.toUpperCase()))
+            .toList();
 
     List<Properties> result = new ArrayList<>();
     for (String foundKey : keys) {
-      result.addAll(keyToProperties.get(foundKey).stream()
-          .map(Properties::new)
-          .toList());
+      result.addAll(keyToProperties.get(foundKey).stream().map(Properties::new).toList());
     }
     return result;
   }
@@ -115,7 +112,8 @@ class InMemoryPropertiesRepository implements PropertiesRepository {
   }
 
   private void saveToApplicationAndProfile(PropertiesSnapshot snapshot) {
-    ApplicationAndProfile key = new ApplicationAndProfile(snapshot.application(), snapshot.profile());
+    ApplicationAndProfile key =
+        new ApplicationAndProfile(snapshot.application(), snapshot.profile());
     if (applicationAndProfileToProperties.containsKey(key)) {
       applicationAndProfileToProperties.get(key).add(snapshot);
     } else {
@@ -125,7 +123,5 @@ class InMemoryPropertiesRepository implements PropertiesRepository {
     }
   }
 
-  record ApplicationAndProfile(String application, String profile) {
-
-  }
+  record ApplicationAndProfile(String application, String profile) {}
 }

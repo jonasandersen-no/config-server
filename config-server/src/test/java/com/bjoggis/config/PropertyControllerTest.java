@@ -1,6 +1,5 @@
 package com.bjoggis.config;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import org.assertj.core.api.InstanceOfAssertFactories;
@@ -27,9 +26,11 @@ class PropertyControllerTest {
       MockMvcTester mvc = fixture.mvc();
       InMemoryPropertiesRepository repository = fixture.repository();
 
-      mvc.post().uri("/properties")
+      mvc.post()
+          .uri("/properties")
           .contentType(MediaType.APPLICATION_JSON)
-          .content("""
+          .content(
+              """
               {
               "application": "sample-app",
               "profile": "dev",
@@ -51,9 +52,11 @@ class PropertyControllerTest {
     void failOnLargeValue() throws JsonProcessingException {
       MockMvcTester mvc = createFixture().mvc();
 
-      mvc.post().uri("/properties")
+      mvc.post()
+          .uri("/properties")
           .contentType(MediaType.APPLICATION_JSON)
-          .content("""
+          .content(
+              """
               {
               "application": "sample-app",
               "profile": "dev",
@@ -62,11 +65,11 @@ class PropertyControllerTest {
               "value": "%s",
               "secret": false
               }
-              """.formatted("a".repeat(10001)))
+              """
+                  .formatted("a".repeat(10001)))
           .assertThat()
           .hasStatus4xxClientError();
     }
-
   }
 
   @Nested
@@ -79,7 +82,8 @@ class PropertyControllerTest {
       InMemoryPropertiesRepository repository = fixture.repository();
       repository.save(new Properties("key", "value"));
 
-      mvc.get().uri("/properties/1")
+      mvc.get()
+          .uri("/properties/1")
           .assertThat()
           .bodyJson()
           .convertTo(Properties.class)
@@ -95,12 +99,13 @@ class PropertyControllerTest {
       repository.save(new Properties("key", "value"));
       repository.save(new Properties("key2", "value2"));
 
-      ListAssert<Properties> propertiesListAssert = mvc.get().uri("/properties")
-          .assertThat()
-          .bodyJson()
-          .convertTo(InstanceOfAssertFactories.list(Properties.class))
-          .contains(new Properties(1L, "key", "value"),
-              new Properties(2L, "key2", "value2"));
+      ListAssert<Properties> propertiesListAssert =
+          mvc.get()
+              .uri("/properties")
+              .assertThat()
+              .bodyJson()
+              .convertTo(InstanceOfAssertFactories.list(Properties.class))
+              .contains(new Properties(1L, "key", "value"), new Properties(2L, "key2", "value2"));
     }
 
     @Test
@@ -116,7 +121,8 @@ class PropertyControllerTest {
       Properties expected = new Properties(1L);
       expected.setApplication("sample-app");
 
-      mvc.get().uri("/properties/application/{application}", "sample-app")
+      mvc.get()
+          .uri("/properties/application/{application}", "sample-app")
           .assertThat()
           .bodyJson()
           .convertTo(InstanceOfAssertFactories.list(Properties.class))
@@ -131,7 +137,8 @@ class PropertyControllerTest {
       repository.save(new Properties("someKey", "value"));
       repository.save(new Properties("other", "value2"));
 
-      mvc.get().uri("/properties/key/{key}", "key")
+      mvc.get()
+          .uri("/properties/key/{key}", "key")
           .assertThat()
           .bodyJson()
           .convertTo(InstanceOfAssertFactories.list(Properties.class))
@@ -156,12 +163,12 @@ class PropertyControllerTest {
       expected.setApplication("sample-app");
       expected.setProfile("dev");
 
-      mvc.get().uri("/properties/application/{application}/profile/{profile}", "sample-app", "dev")
+      mvc.get()
+          .uri("/properties/application/{application}/profile/{profile}", "sample-app", "dev")
           .assertThat()
           .bodyJson()
           .convertTo(InstanceOfAssertFactories.list(Properties.class))
           .containsExactly(expected);
-
     }
 
     @Nested
@@ -174,10 +181,10 @@ class PropertyControllerTest {
         InMemoryPropertiesRepository repository = fixture.repository();
         Properties saved = repository.save(new Properties("key", "value"));
 
-        mvc.delete().uri("/properties/%s".formatted(saved.getId()))
+        mvc.delete()
+            .uri("/properties/%s".formatted(saved.getId()))
             .assertThat()
             .hasStatus2xxSuccessful();
-
       }
 
       @Test
@@ -185,7 +192,8 @@ class PropertyControllerTest {
         Fixture fixture = createFixture();
         MockMvcTester mvc = fixture.mvc();
 
-        mvc.delete().uri("/properties/%s".formatted("1"))
+        mvc.delete()
+            .uri("/properties/%s".formatted("1"))
             .assertThat()
             .hasStatus(HttpStatus.NOT_FOUND);
       }
@@ -195,13 +203,12 @@ class PropertyControllerTest {
   private Fixture createFixture() {
     InMemoryPropertiesRepository repository = new InMemoryPropertiesRepository();
     MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-    MockMvcTester mvc = MockMvcTester.of(new PropertyController(repository))
-        .withHttpMessageConverters(List.of(converter));
+    MockMvcTester mvc =
+        MockMvcTester.of(new PropertyController(repository))
+            .withHttpMessageConverters(List.of(converter));
 
     return new Fixture(mvc, repository);
   }
 
-  private record Fixture(MockMvcTester mvc, InMemoryPropertiesRepository repository) {
-
-  }
+  private record Fixture(MockMvcTester mvc, InMemoryPropertiesRepository repository) {}
 }

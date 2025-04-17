@@ -24,8 +24,7 @@ class PropertyController {
   @GetMapping("/{id}")
   ResponseEntity<Properties> get(@PathVariable Long id) {
     Optional<Properties> properties = repository.findById(id);
-    return properties.map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+    return properties.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
   }
 
   @GetMapping("/application/{application}")
@@ -34,7 +33,8 @@ class PropertyController {
   }
 
   @GetMapping("/application/{application}/profile/{profile}")
-  List<Properties> findByApplicationAndProfile(@PathVariable String application, @PathVariable String profile) {
+  List<Properties> findByApplicationAndProfile(
+      @PathVariable String application, @PathVariable String profile) {
     return repository.findAllByApplicationAndProfile(application, profile);
   }
 

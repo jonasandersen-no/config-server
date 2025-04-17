@@ -7,8 +7,7 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table
 class Properties {
 
-  @Id
-  private Long id;
+  @Id private Long id;
 
   private String application = "application";
   private String profile = "profile";
@@ -17,8 +16,7 @@ class Properties {
   private String value;
   private Boolean secret;
 
-  Properties() {
-  }
+  Properties() {}
 
   Properties(PropertiesSnapshot snapshot) {
     this.id = snapshot.id();
@@ -125,10 +123,7 @@ class Properties {
       String label,
       String name,
       String value,
-      Boolean secret
-  ) {
-
-  }
+      Boolean secret) {}
 
   @Override
   public final boolean equals(Object o) {
@@ -136,10 +131,13 @@ class Properties {
       return false;
     }
 
-    return Objects.equals(id, that.id) && Objects.equals(application, that.application)
-           && Objects.equals(profile, that.profile) && Objects.equals(label, that.label)
-           && Objects.equals(name, that.name) && Objects.equals(value, that.value)
-           && Objects.equals(secret, that.secret);
+    return Objects.equals(id, that.id)
+        && Objects.equals(application, that.application)
+        && Objects.equals(profile, that.profile)
+        && Objects.equals(label, that.label)
+        && Objects.equals(name, that.name)
+        && Objects.equals(value, that.value)
+        && Objects.equals(secret, that.secret);
   }
 
   @Override
@@ -156,13 +154,26 @@ class Properties {
 
   @Override
   public String toString() {
-    return "Properties{" + "id=" + id
-           + ", application='" + application + '\''
-           + ", profile='" + profile + '\''
-           + ", label='" + label + '\''
-           + ", name='" + name + '\''
-           + ", value='" + value + '\''
-           + ", secret=" + secret
-           + '}';
+    return "Properties{"
+        + "id="
+        + id
+        + ", application='"
+        + application
+        + '\''
+        + ", profile='"
+        + profile
+        + '\''
+        + ", label='"
+        + label
+        + '\''
+        + ", name='"
+        + name
+        + '\''
+        + ", value='"
+        + value
+        + '\''
+        + ", secret="
+        + secret
+        + '}';
   }
 }

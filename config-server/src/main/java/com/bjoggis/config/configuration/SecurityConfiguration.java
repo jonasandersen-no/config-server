@@ -12,12 +12,10 @@ public class SecurityConfiguration {
 
   @Bean
   SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    return http
-        .csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(auth ->
-            auth
-                .requestMatchers("/actuator/health").permitAll()
-                .anyRequest().authenticated())
+    return http.csrf(AbstractHttpConfigurer::disable)
+        .authorizeHttpRequests(
+            auth ->
+                auth.requestMatchers("/actuator/health").permitAll().anyRequest().authenticated())
         .httpBasic(Customizer.withDefaults())
         .build();
   }
