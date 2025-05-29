@@ -19,14 +19,19 @@ jobs:
     outputs:
       projectVersion: ${{ steps.get_version.outputs.version }}
     steps:
-      - name: Setup Maven Action
-        uses: s4u/setup-maven-action@v1.12.0
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          java-version: 24
-          java-distribution: liberica
-          checkout-persist-credentials: true
-          cache-enabled: false
-          settings-servers: |
+          persist-credentials: 'true'
+      - uses: graalvm/setup-graalvm@v1
+        with:
+          java-version: '24'      # See 'Options' for more details
+          distribution: 'graalvm' # See 'Supported distributions' for available options
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v5
+      - uses: s4u/maven-settings-action@v3.1.0
+        with:
+          servers: |
             [{
                 "id": "reposilite-releases",
                 "username": "${{ secrets.REPOSILITE_USERNAME }}",
@@ -51,7 +56,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build with Maven
-        run: mvn clean deploy
+        run: mvn clean deploy -Pnative
 
       - name: Push Images to Docker Registry
         run: docker push -a bjoggis/config-server
