@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -32,10 +33,6 @@
       <artifactId>spring-cloud-config-server</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.liquibase</groupId>
-      <artifactId>liquibase-core</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-docker-compose</artifactId>
       <scope>runtime</scope>
@@ -56,25 +53,6 @@
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
-    <!--    <dependency>-->
-    <!--      <groupId>org.testcontainers</groupId>-->
-    <!--      <artifactId>junit-jupiter</artifactId>-->
-    <!--      <scope>test</scope>-->
-    <!--    </dependency>-->
-    <!--    <dependency>-->
-    <!--      <groupId>org.springframework.boot</groupId>-->
-    <!--      <artifactId>spring-boot-testcontainers</artifactId>-->
-    <!--      <scope>test</scope>-->
-    <!--    </dependency>-->
-    <!--    <dependency>-->
-    <!--      <groupId>org.testcontainers</groupId>-->
-    <!--      <artifactId>postgresql</artifactId>-->
-    <!--      <scope>test</scope>-->
-    <!--    </dependency>-->
-    <!--    <dependency>-->
-    <!--      <groupId>com.bjoggis.config</groupId>-->
-    <!--      <artifactId>config-server-contract</artifactId>-->
-    <!--    </dependency>-->
   </dependencies>
 
   <build>
@@ -100,9 +78,18 @@
             <builder>paketobuildpacks/builder-jammy-buildpackless-tiny</builder>
             <name>bjoggis/${project.artifactId}:v${project.version}-${os.detected.arch}</name>
             <buildpacks>
-              <buildpack>paketobuildpacks/java</buildpack>
+              <buildpack>paketobuildpacks/java-native-image</buildpack>
             </buildpacks>
             <env>
+              <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+              <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+                -H:-AddAllFileSystemProviders
+                --strict-image-heap
+                --initialize-at-build-time=org.bouncycastle
+                --initialize-at-build-time=net.i2p.crypto.eddsa.EdDSASecurityProvider
+                --initialize-at-run-time=org.bouncycastle.jcajce.provider.drbg.DRBG$Default
+                --initialize-at-run-time=org.bouncycastle.jcajce.provider.drbg.DRBG$NonceAndIV
+              </BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
               <BP_JVM_VERSION>24</BP_JVM_VERSION>
             </env>
           </image>
