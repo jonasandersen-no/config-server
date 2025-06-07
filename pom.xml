@@ -52,6 +52,13 @@
         <artifactId>config-server-contract</artifactId>
         <version>${project.version}</version>
       </dependency>
+      <dependency>
+        <groupId>no.jonasandersen.common</groupId>
+        <artifactId>bom</artifactId>
+        <version>1</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
