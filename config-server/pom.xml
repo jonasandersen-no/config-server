@@ -78,18 +78,9 @@
             <builder>paketobuildpacks/builder-jammy-buildpackless-tiny</builder>
             <name>bjoggis/${project.artifactId}:v${project.version}-${os.detected.arch}</name>
             <buildpacks>
-              <buildpack>paketobuildpacks/java-native-image</buildpack>
+              <buildpack>paketobuildpacks/java</buildpack>
             </buildpacks>
             <env>
-              <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-              <BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
-                -H:-AddAllFileSystemProviders
-                --strict-image-heap
-                --initialize-at-build-time=org.bouncycastle
-                --initialize-at-build-time=net.i2p.crypto.eddsa.EdDSASecurityProvider
-                --initialize-at-run-time=org.bouncycastle.jcajce.provider.drbg.DRBG$Default
-                --initialize-at-run-time=org.bouncycastle.jcajce.provider.drbg.DRBG$NonceAndIV
-              </BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
               <BP_JVM_VERSION>24</BP_JVM_VERSION>
             </env>
           </image>
