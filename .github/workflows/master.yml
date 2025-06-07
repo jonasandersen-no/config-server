@@ -19,19 +19,14 @@ jobs:
     outputs:
       projectVersion: ${{ steps.get_version.outputs.version }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Setup Maven Action
+        uses: s4u/setup-maven-action@v1.18.0
         with:
-          persist-credentials: 'true'
-      - uses: graalvm/setup-graalvm@v1
-        with:
-          java-version: '24'      # See 'Options' for more details
-          distribution: 'graalvm' # See 'Supported distributions' for available options
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v5
-      - uses: s4u/maven-settings-action@v3.1.0
-        with:
-          servers: |
+          java-version: 24
+          java-distribution: liberica
+          checkout-persist-credentials: true
+          cache-prefix: ${{ runner.arch }}
+          settings-servers: |
             [{
                 "id": "reposilite-releases",
                 "username": "${{ secrets.REPOSILITE_USERNAME }}",
