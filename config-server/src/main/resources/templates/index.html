@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="webjars/htmx.org/2.0.4/dist/htmx.js"></script>
+  <title>Document</title>
+</head>
+<body>
+
+<button hx-get="/new-title" hx-target="#container">New title please</button>
+<div id="container" th:insert="~{fragments/myfragments :: myfragment (${title})}">
+
+</div>
+</body>
+</html>
