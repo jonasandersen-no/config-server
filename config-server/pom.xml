@@ -78,6 +78,9 @@
         <configuration>
           <image>
             <name>bjoggis/${project.artifactId}:v${project.version}-${os.detected.arch}</name>
+            <env>
+              <BP_JVM_VERSION>24</BP_JVM_VERSION>
+            </env>
           </image>
         </configuration>
       </plugin>
