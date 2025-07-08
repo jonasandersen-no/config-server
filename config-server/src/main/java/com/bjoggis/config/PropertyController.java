@@ -53,7 +53,9 @@ class PropertyController {
 
   @GetMapping
   List<PropertiesView> findAll() {
-    return repository.findAll().stream().map(convertToPropertiesView()).toList();
+    List<PropertiesView> list = repository.findAll().stream().map(convertToPropertiesView())
+        .toList();
+    return list;
   }
 
   @PostMapping

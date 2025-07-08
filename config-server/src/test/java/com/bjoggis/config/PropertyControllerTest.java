@@ -3,19 +3,14 @@ package com.bjoggis.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import org.assertj.core.api.InstanceOfAssertFactories;
-import org.assertj.core.api.ListAssert;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
 class PropertyControllerTest {
-
-  private static final Logger log = LoggerFactory.getLogger(PropertyControllerTest.class);
 
   @Nested
   class Create {
@@ -43,8 +38,8 @@ class PropertyControllerTest {
           .assertThat()
           .hasStatusOk()
           .bodyJson()
-          .convertTo(Properties.class)
-          .extracting(Properties::getId)
+          .convertTo(PropertiesView.class)
+          .extracting(PropertiesView::id)
           .matches(repository::existsById);
     }
 
@@ -86,8 +81,8 @@ class PropertyControllerTest {
           .uri("/properties/1")
           .assertThat()
           .bodyJson()
-          .convertTo(Properties.class)
-          .extracting(Properties::getId)
+          .convertTo(PropertiesView.class)
+          .extracting(PropertiesView::id)
           .isEqualTo(1L);
     }
 
@@ -99,13 +94,14 @@ class PropertyControllerTest {
       repository.save(new Properties("key", "value"));
       repository.save(new Properties("key2", "value2"));
 
-      ListAssert<Properties> propertiesListAssert =
-          mvc.get()
-              .uri("/properties")
-              .assertThat()
-              .bodyJson()
-              .convertTo(InstanceOfAssertFactories.list(Properties.class))
-              .contains(new Properties(1L, "key", "value"), new Properties(2L, "key2", "value2"));
+      mvc.get()
+          .uri("/properties")
+          .assertThat()
+          .bodyJson()
+          .convertTo(InstanceOfAssertFactories.list(PropertiesView.class))
+          .contains(
+              new PropertiesView(1L, "application", "default", "key", "value", false),
+              new PropertiesView(2L, "application", "default", "key2", "value2", false));
     }
 
     @Test
@@ -115,17 +111,19 @@ class PropertyControllerTest {
       InMemoryPropertiesRepository repository = fixture.repository();
       Properties properties = new Properties();
       properties.setApplication("sample-app");
+      properties.setName("key2");
+      properties.setValue("value");
       repository.save(properties);
       repository.save(new Properties("key", "value"));
 
-      Properties expected = new Properties(1L);
-      expected.setApplication("sample-app");
+      PropertiesView expected =
+          new PropertiesView(1L, "sample-app", "default", "key2", "value", false);
 
       mvc.get()
           .uri("/properties/application/{application}", "sample-app")
           .assertThat()
           .bodyJson()
-          .convertTo(InstanceOfAssertFactories.list(Properties.class))
+          .convertTo(InstanceOfAssertFactories.list(PropertiesView.class))
           .containsExactly(expected);
     }
 
@@ -141,8 +139,9 @@ class PropertyControllerTest {
           .uri("/properties/key/{key}", "key")
           .assertThat()
           .bodyJson()
-          .convertTo(InstanceOfAssertFactories.list(Properties.class))
-          .containsExactly(new Properties(1L, "someKey", "value"));
+          .convertTo(InstanceOfAssertFactories.list(PropertiesView.class))
+          .containsExactly(
+              new PropertiesView(1L, "application", "default", "someKey", "value", false));
     }
 
     @Test
@@ -159,15 +158,13 @@ class PropertyControllerTest {
       property2.setProfile("test");
       repository.save(property2);
 
-      Properties expected = new Properties(1L, "key", "value");
-      expected.setApplication("sample-app");
-      expected.setProfile("dev");
+      PropertiesView expected = new PropertiesView(1L, "sample-app", "dev", "key", "value", false);
 
       mvc.get()
           .uri("/properties/application/{application}/profile/{profile}", "sample-app", "dev")
           .assertThat()
           .bodyJson()
-          .convertTo(InstanceOfAssertFactories.list(Properties.class))
+          .convertTo(InstanceOfAssertFactories.list(PropertiesView.class))
           .containsExactly(expected);
     }
 

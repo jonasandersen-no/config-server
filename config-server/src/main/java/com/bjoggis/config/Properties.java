@@ -10,11 +10,11 @@ class Properties {
   @Id private Long id;
 
   private String application = "application";
-  private String profile = "profile";
+  private String profile = "default";
   private String label;
   private String name;
   private String value;
-  private Boolean secret;
+  private Boolean secret = false;
 
   Properties() {}
 
