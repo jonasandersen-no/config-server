@@ -2,6 +2,7 @@ package com.bjoggis.config;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,34 +23,41 @@ class PropertyController {
   }
 
   @GetMapping("/{id}")
-  ResponseEntity<Properties> get(@PathVariable Long id) {
+  ResponseEntity<PropertiesView> get(@PathVariable Long id) {
     Optional<Properties> properties = repository.findById(id);
-    return properties.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    return properties
+        .map(convertToPropertiesView())
+        .map(ResponseEntity::ok)
+        .orElse(ResponseEntity.notFound().build());
   }
 
   @GetMapping("/application/{application}")
-  List<Properties> findByApplication(@PathVariable String application) {
-    return repository.findAllByApplication(application);
+  List<PropertiesView> findByApplication(@PathVariable String application) {
+    return repository.findAllByApplication(application).stream()
+        .map(convertToPropertiesView())
+        .toList();
   }
 
   @GetMapping("/application/{application}/profile/{profile}")
-  List<Properties> findByApplicationAndProfile(
+  List<PropertiesView> findByApplicationAndProfile(
       @PathVariable String application, @PathVariable String profile) {
-    return repository.findAllByApplicationAndProfile(application, profile);
+    return repository.findAllByApplicationAndProfile(application, profile).stream()
+        .map(convertToPropertiesView())
+        .toList();
   }
 
   @GetMapping("/key/{key}")
-  List<Properties> findByKey(@PathVariable String key) {
-    return repository.findAllByKey(key);
+  List<PropertiesView> findByKey(@PathVariable String key) {
+    return repository.findAllByKey(key).stream().map(convertToPropertiesView()).toList();
   }
 
   @GetMapping
-  List<Properties> findAll() {
-    return repository.findAll();
+  List<PropertiesView> findAll() {
+    return repository.findAll().stream().map(convertToPropertiesView()).toList();
   }
 
   @PostMapping
-  Properties create(@RequestBody CreatePropertyRequest properties) {
+  PropertiesView create(@RequestBody CreatePropertyRequest properties) {
     Properties entity = new Properties();
     entity.setApplication(properties.application());
     entity.setProfile(properties.profile());
@@ -57,7 +65,8 @@ class PropertyController {
     entity.setName(properties.key());
     entity.setValue(properties.value());
     entity.setSecret(properties.secret());
-    return repository.save(entity);
+    Properties saved = repository.save(entity);
+    return convertToPropertiesView().apply(saved);
   }
 
   @DeleteMapping("/{id}")
@@ -68,5 +77,16 @@ class PropertyController {
 
     repository.deleteById(id);
     return ResponseEntity.ok().build();
+  }
+
+  private static Function<Properties, PropertiesView> convertToPropertiesView() {
+    return property ->
+        new PropertiesView(
+            property.getId(),
+            property.getApplication(),
+            property.getProfile(),
+            property.getName(),
+            property.getValue(),
+            property.isSecret());
   }
 }
