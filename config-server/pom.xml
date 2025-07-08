@@ -38,10 +38,6 @@
     </dependency>
 
     <dependency>
-      <groupId>no.jonasandersen.common</groupId>
-      <artifactId>spring-thymeleaf-htmx-dependencies</artifactId>
-    </dependency>
-    <dependency>
       <groupId>com.bjoggis.config</groupId>
       <artifactId>config-server-contract</artifactId>
     </dependency>
