@@ -4,3 +4,10 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+registries:
+  maven-artifactory:
+    type: maven-repository
+    url: https://maven.jonasandersen.no/releases
+    username: ${{secrets.REPOSILITE_USERNAME}}
+    password: ${{secrets.REPOSILITE_PASSWORD}}
+
