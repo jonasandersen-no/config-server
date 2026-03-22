@@ -1,13 +1,12 @@
 package com.bjoggis.config;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.List;
 import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
 class PropertyControllerTest {
@@ -44,7 +43,7 @@ class PropertyControllerTest {
     }
 
     @Test
-    void failOnLargeValue() throws JsonProcessingException {
+    void failOnLargeValue() {
       MockMvcTester mvc = createFixture().mvc();
 
       mvc.post()
@@ -199,7 +198,7 @@ class PropertyControllerTest {
 
   private Fixture createFixture() {
     InMemoryPropertiesRepository repository = new InMemoryPropertiesRepository();
-    MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+    JacksonJsonHttpMessageConverter converter = new JacksonJsonHttpMessageConverter();
     MockMvcTester mvc =
         MockMvcTester.of(new PropertyController(repository))
             .withHttpMessageConverters(List.of(converter));
