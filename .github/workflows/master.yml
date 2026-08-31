@@ -19,7 +19,7 @@ jobs:
       projectVersion: ${{ steps.get_version.outputs.version }}
     steps:
       - name: Setup Maven Action
-        uses: s4u/setup-maven-action@v1.20.0
+        uses: s4u/setup-maven-action@v1.21.0
         with:
           java-version: 26
           java-distribution: liberica
