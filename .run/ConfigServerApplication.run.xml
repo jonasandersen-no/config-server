@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="ConfigServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <option name="ACTIVE_PROFILES" value="intellij" />
+    <option name="SCHEDULED_DEBUGGER" value="true" />
     <envs>
       <env name="SPRING_CONFIG_IMPORT" value="" />
       <env name="loki.url" value="https://loki.jonasandersen.dev/loki/api/v1/push" />
