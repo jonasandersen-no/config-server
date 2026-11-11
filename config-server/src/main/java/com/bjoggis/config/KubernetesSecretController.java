@@ -27,7 +27,7 @@ class KubernetesSecretController {
   }
 
   @GetMapping("/namespace/{namespace}/name/{name}")
-  Map<String,String> getSecret(@PathVariable String namespace, @PathVariable String name) {
+  Map<String, String> getSecret(@PathVariable String namespace, @PathVariable String name) {
     return repository.getSecretData(namespace, name);
   }
 
