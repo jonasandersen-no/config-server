@@ -4,6 +4,6 @@ services:
     environment:
       POSTGRES_USER: dev
       POSTGRES_PASSWORD: dev
-      POSTGRES_DB: admin
+      POSTGRES_DB: config
     ports:
       - "5432:5432"

@@ -3,6 +3,7 @@
     <option name="ACTIVE_PROFILES" value="prod" />
     <envs>
       <env name="SPRING_CONFIG_IMPORT" value="" />
+      <env name="loki.url" value="https://loki.jonasandersen.dev/loki/api/v1/push" />
     </envs>
     <module name="config-server" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="com.bjoggis.config.ConfigServerApplication" />
