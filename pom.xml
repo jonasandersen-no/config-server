@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>4.1.2</version>
-    <relativePath />
+    <relativePath/>
   </parent>
 
   <groupId>com.bjoggis.config</groupId>
@@ -19,16 +21,17 @@
     <module>config-server-contract</module>
   </modules>
 
-  <url />
+  <url/>
   <licenses>
-    <license />
+    <license/>
   </licenses>
   <developers>
-    <developer />
+    <developer/>
   </developers>
   <scm>
     <connection>scm:git:git@github.com:jonasandersen-no/config-server.git</connection>
-    <developerConnection>scm:git:git@github.com:jonasandersen-no/config-server.git</developerConnection>
+    <developerConnection>scm:git:git@github.com:jonasandersen-no/config-server.git
+    </developerConnection>
     <tag></tag>
     <url></url>
   </scm>
@@ -62,6 +65,26 @@
     </dependencies>
   </dependencyManagement>
 
+  <profiles>
+    <profile>
+      <id>build</id>
+      <build>
+        <!-- Defines the goals to run when this profile is invoked -->
+        <defaultGoal>release:prepare release:clean</defaultGoal>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-release-plugin</artifactId>
+            <version>3.1.1</version>
+            <configuration>
+              <!-- Equivalent to the -B (batch mode) flag -->
+              <interactiveMode>false</interactiveMode>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <build>
     <plugins>
       <plugin>
